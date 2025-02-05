@@ -3,15 +3,15 @@ from typing import List
 
 @dataclass
 class Product:
-    id: int
-    name:str
-    qunatity:int
-    price:float
+    name: str
+    quantity: int
+    price: float
+    id: int | None = None
 
 @dataclass
 class Order:
-    id: int
-    products: List[Product] = filed(default_factory=list)
+    products: List[Product] = field(default_factory=list)
+    id: int | None = None
 
     def add_product(self, product: Product):
         self.products.append(product)
