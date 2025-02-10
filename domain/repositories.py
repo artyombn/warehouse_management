@@ -3,6 +3,8 @@ from typing import List
 
 from .models import Product, Order
 
+# Репозиторий отвечает за сохранение, получение и удаление объектов из хранилища данных
+
 class ProductRepository(ABC):
     @abstractmethod
     def add(self, product: Product):
@@ -16,6 +18,15 @@ class ProductRepository(ABC):
     def list(self) -> List[Product]:
         pass
 
+    @abstractmethod
+    def update(self, product: Product):
+        pass
+
+    @abstractmethod
+    def delete(self, product_id: int):
+        pass
+
+
 class OrderRepository(ABC):
     @abstractmethod
     def add(self, order: Order):
@@ -28,6 +39,14 @@ class OrderRepository(ABC):
     @abstractmethod
     def list(self) -> List[Order]:
         pass
-    
+
+    @abstractmethod
+    def update(self, order: Order):
+        pass
+
+    @abstractmethod
+    def delete(self, order_id: int):
+        pass
+
 
 

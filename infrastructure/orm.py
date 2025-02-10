@@ -18,6 +18,7 @@ class OrderORM(Base):
     __tablename__ = 'orders'
 
     id = Column(Integer, primary_key=True)
+    # products = relationship("ProductORM", secondary="order_product_associations")
 
 
 order_product_associations = Table(
