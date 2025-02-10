@@ -1,15 +1,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from domain.models import Product
+
 from domain.services import WarehouseService
-from infrastructure.orm import Base, ProductORM, OrderORM
-from infrastructure.repositories import SqlAlchemyProductRepository, SqlAlchemyOrderRepository
-from infrastructure.unit_of_work import SqlAlchemyUnitOfWork
 from infrastructure.database import DATABASE_URL
+from infrastructure.orm import Base
+from infrastructure.repositories import (SqlAlchemyOrderRepository,
+                                         SqlAlchemyProductRepository)
+from infrastructure.unit_of_work import SqlAlchemyUnitOfWork
 
 engine = create_engine(DATABASE_URL)
 SessionFactory = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
+
 
 def main():
     session = SessionFactory()
@@ -20,12 +22,20 @@ def main():
 
     warehouse_service = WarehouseService(product_repo, order_repo)
     with uow:
-        new_product1 = warehouse_service.create_product(name="test1", quantity=1, price=100)
-        new_product2 = warehouse_service.create_product(name="test2", quantity=1, price=300)
-        new_product3 = warehouse_service.create_product(name="test3", quantity=1, price=500)
+        new_product1 = warehouse_service.create_product(
+            name="test1", quantity=1, price=100
+        )
+        new_product2 = warehouse_service.create_product(
+            name="test2", quantity=1, price=300
+        )
+        new_product3 = warehouse_service.create_product(
+            name="test3", quantity=1, price=500
+        )
         uow.commit()
         print(f"--- Products created: {[new_product1, new_product2, new_product3]}")
-        new_order = warehouse_service.create_order([new_product1, new_product2, new_product3])
+        new_order = warehouse_service.create_order(
+            [new_product1, new_product2, new_product3]
+        )
         uow.commit()
         print(f"--- Order created: {new_order}")
 
@@ -52,15 +62,11 @@ def main():
         print(f"--- Order updated: {update_order}")
         print(f"--- Current order list: {warehouse_service.get_order_list()}")
 
-
         get_order2 = warehouse_service.get_order(2)
         delete_order = warehouse_service.delete_order(2)
         print(f"--- Deleted order: {get_order2}")
         print(f"--- Current order list: {warehouse_service.get_order_list()}")
 
 
-
 if __name__ == "__main__":
     main()
-
-

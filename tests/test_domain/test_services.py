@@ -1,5 +1,7 @@
-from service_mock import service_mock, product_repo_mock, order_repo_mock
-from domain.models import Product, Order
+from service_mock import order_repo_mock, product_repo_mock, service_mock
+
+from domain.models import Order, Product
+
 
 def test_create_product():
     service = service_mock()
@@ -8,6 +10,7 @@ def test_create_product():
     assert isinstance(product.name, str) and product.name == "product_name"
     assert isinstance(product.quantity, int) and product.quantity == 1
     assert isinstance(product.price, float) and product.price == 100.0
+
 
 def test_get_product():
     fake_product = Product(id=1, name="fake_product", quantity=1, price=50)
@@ -19,6 +22,7 @@ def test_get_product():
     assert product.name == "fake_product"
     assert product.quantity == 1
     assert product.price == 50
+
 
 def test_get_product_list():
     fake_product_list = [
@@ -34,6 +38,7 @@ def test_get_product_list():
     assert all(isinstance(product, Product) for product in product_list)
     assert len(fake_product_list) == len(product_list)
 
+
 def test_update_product():
     fake_product = Product(id=1, name="fake_product", quantity=1, price=50)
     updated_product = Product(1, "new_fake_name", quantity=2, price=100)
@@ -45,6 +50,7 @@ def test_update_product():
     assert product.name == "new_fake_name"
     assert product.quantity == 2
     assert product.price == 100
+
 
 def test_delete_product():
     fake_product_list = [
@@ -59,7 +65,3 @@ def test_delete_product():
     assert isinstance(result, list)
     assert len(result) == len(fake_product_list) - 1
     assert result[0] == fake_product_list[0] and result[1] == fake_product_list[1]
-
-
-
-

@@ -3,6 +3,7 @@ from typing import List, Optional
 
 # В чистой архитектуре все модели должны быть независимы от внешних зависимостей (БД, ORM)
 
+
 @dataclass
 class Product:
     id: Optional[int]

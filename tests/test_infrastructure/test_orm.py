@@ -1,22 +1,7 @@
-import pytest
+from session_fixture import db_session
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from infrastructure.orm import Base
-from infrastructure.orm import ProductORM, OrderORM
+from infrastructure.orm import OrderORM, ProductORM
 
-@pytest.fixture(scope="module")
-def db_session():
-    engine = create_engine("sqlite:///:memory:")
-    SessionFactory = sessionmaker(bind=engine)
-    Base.metadata.create_all(engine)
-
-    session = SessionFactory()
-
-    yield session
-
-    session.close()
-    Base.metadata.drop_all(engine)
 
 def test_create_product(db_session):
     product = ProductORM(name="product1", quantity=1, price=100)
@@ -27,11 +12,12 @@ def test_create_product(db_session):
     assert is_product is not None
     assert product == is_product
 
+
 def test_create_order(db_session):
     products = [
         ProductORM(name="product1", quantity=1, price=100),
         ProductORM(name="product2", quantity=1, price=50),
-        ProductORM(name="product3", quantity=1, price=200)
+        ProductORM(name="product3", quantity=1, price=200),
     ]
     db_session.add_all(products)
     db_session.commit()

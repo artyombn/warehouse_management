@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from .models import Product, Order
+from .models import Order, Product
 
 # Репозиторий отвечает за сохранение, получение и удаление объектов из хранилища данных
+
 
 class ProductRepository(ABC):
     @abstractmethod
@@ -47,6 +48,3 @@ class OrderRepository(ABC):
     @abstractmethod
     def delete(self, order_id: int):
         pass
-
-
-

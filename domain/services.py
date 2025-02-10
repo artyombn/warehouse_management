@@ -1,7 +1,8 @@
 from typing import List
 
-from .models import Product, Order
-from .repositories import ProductRepository, OrderRepository
+from .models import Order, Product
+from .repositories import OrderRepository, ProductRepository
+
 
 class WarehouseService:
     def __init__(self, product_repo: ProductRepository, order_repo: OrderRepository):
@@ -19,10 +20,12 @@ class WarehouseService:
     def get_product_list(self):
         return self.product_repo.list()
 
-    def update_product(self, id: int, name: str, quantity: int, price: float) -> Product:
-        product = Product(id=id, name=name, quantity=quantity, price=price)
+    def update_product(
+        self, product_id: int, name: str, quantity: int, price: float
+    ) -> Product:
+        product = Product(id=product_id, name=name, quantity=quantity, price=price)
         self.product_repo.update(product)
-        return self.product_repo.get(id)
+        return self.product_repo.get(product_id)
 
     def delete_product(self, product_id: int):
         return self.product_repo.delete(product_id)
@@ -38,10 +41,10 @@ class WarehouseService:
     def get_order_list(self):
         return self.order_repo.list()
 
-    def update_order(self, id: int, products: List[Product]) -> Order:
-        order = Order(id=id, products=products)
+    def update_order(self, order_id: int, products: List[Product]) -> Order:
+        order = Order(id=order_id, products=products)
         self.order_repo.update(order)
-        return self.order_repo.get(id)
+        return self.order_repo.get(order_id)
 
     def delete_order(self, order_id: int):
         return self.order_repo.delete(order_id)

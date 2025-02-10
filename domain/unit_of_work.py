@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 # Для управления транзакциями и работой с продуктами
 # __enter__ и __exit__ внутри идут с with --> автоматический rollback() при ошибке
 
+
 class UnitOfWork(ABC):
     @abstractmethod
     def __enter__(self):
